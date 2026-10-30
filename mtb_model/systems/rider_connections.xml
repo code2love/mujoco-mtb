@@ -1,0 +1,19 @@
+<mujocoinclude>
+	<!-- Passive rider leg spring-dampers and hand/foot attachment constraints. -->
+	<tendon>
+		<spatial name="rider_right_leg_spring" stiffness="10000" damping="3000" springlength="-1" width="0.004" rgba="0.9 0.3 0.2 0.6">
+			<site site="rider_right_hip_site"/>
+			<site site="rider_right_ankle"/>
+		</spatial>
+		<spatial name="rider_left_leg_spring" stiffness="10000" damping="3000" springlength="-1" width="0.004" rgba="0.9 0.3 0.2 0.6">
+			<site site="rider_left_hip_site"/>
+			<site site="rider_left_ankle"/>
+		</spatial> 		 
+	</tendon>
+	<equality>
+		<connect name="rider_right_hand_connection" site1="rider_right_wrist" site2="right_hand_grip" solref="0.002 1" solimp="0.99 0.99 0.001 0.5 2"/>
+		<connect name="rider_left_hand_connection" site1="rider_left_wrist" site2="left_hand_grip" solref="0.002 1" solimp="0.99 0.99 0.001 0.5 2"/>
+		<connect name="rider_right_foot_connection" site1="rider_right_foot_contact" site2="right_pedal_center" solref="0.002 1" solimp="0.99 0.99 0.001 0.5 2"/>
+		<connect name="rider_left_foot_connection" site1="rider_left_foot_contact" site2="left_pedal_center" solref="0.002 1" solimp="0.99 0.99 0.001 0.5 2"/>
+	</equality>
+</mujocoinclude>

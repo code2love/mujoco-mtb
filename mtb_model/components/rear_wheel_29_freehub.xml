@@ -1,0 +1,37 @@
+<mujocoinclude>
+	<!-- Reusable 29-inch rear wheel including cassette and freehub joint. Place its local origin at the rear axle. -->
+	<body name="rear_wheel" pos="0 0 0">
+		<joint name="rear_wheel_spin" type="hinge" axis="0 1 0" damping="0.002"/>
+		<inertial pos="0 0 0" mass="2.3" diaginertia="0.1185 0.2358 0.1185"/>
+		<site name="rear_wheel_center" pos="0 0 0" size="0.010" rgba="0.9 0.1 0.9 1"/>
+		<geom name="rear_wheel_collision" class="tire"/>
+		<geom name="rear_wheel_rotation_marker" type="capsule" size="0.008" fromto="0 0 0       0.32 0 0" contype="0" conaffinity="0" rgba="1 0.2 0.1 1"/>
+		<!--
+						24T cassette sprocket.
+						Pitch radius:
+						r = 12.7 mm / (2 sin(pi/24))
+						= 48.65 mm
+
+						Note:
+						12.7 mm is the chain pitch of a standard bicycle chain.
+					-->
+		<body name="rear_cassette" pos="0 0 0">
+			<!--
+							Relative cassette rotation with respect to rear wheel:
+
+							q_freehub = theta_cassette - theta_wheel
+
+							qdot_freehub > 0:
+							cassette is rotating faster -> can engage
+
+							qdot_freehub < 0:
+							wheel is overrunning cassette -> freewheeling
+						-->
+			<joint name="freehub_rel" type="hinge" axis="0 1 0" frictionloss="0.0" damping="0"/>
+			<!-- 24T cassette sprocket -->
+			<geom name="rear_sprocket" type="cylinder" size="0.04865 0.0015" pos="0 -0.04 0" euler="90 0 0" mass="0.04" contype="0" conaffinity="0" rgba="0.95 0.75 0.10 0.5"/>
+			<!-- Visual marker on cassette -->
+			<geom name="rear_sprocket_marker" type="capsule" size="0.0025" fromto="0 -0.043 0        0.043 -0.043 0" mass="0.0001" contype="0" conaffinity="0" rgba="1 0.15 0.05 1"/>
+		</body>
+	</body>
+</mujocoinclude>

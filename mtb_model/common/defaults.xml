@@ -1,0 +1,20 @@
+<mujocoinclude>
+	<!-- Shared defaults used by the complete MTB model. -->
+	<default>
+		<!-- Frame/fork structural geoms do not collide with terrain for now. -->
+		<geom contype="0" conaffinity="0" rgba="0.95 0.32 0.05 1"/>
+		<site size="0.012"/>
+		<!-- Shared tire collision properties. -->
+		<default class="tire">
+			<geom 
+				type="ellipsoid" 
+				size="0.372 0.030 0.372" 
+				contype="1" conaffinity="1" 
+				condim="3" 
+				friction="1.0 0 0" 
+				solref="0.003 1.0"
+				solimp="0.95 0.99 0.001 0.5 2"
+				rgba="0.025 0.025 0.025 0.5"/>
+		</default>
+	</default>
+</mujocoinclude>

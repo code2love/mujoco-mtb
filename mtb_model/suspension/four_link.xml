@@ -1,0 +1,156 @@
+<mujocoinclude>
+	<!--
+		Planar Horst-link / four-link rear suspension with rocker-driven,
+		near-vertical rear shock.
+
+		Topology:
+		  - P-H is the lower chainstay link.
+		  - H-U is the rear upright / seatstay link.
+		  - A bell-crank rocker pivots on the seat-tube region at R.
+		  - The rearward rocker arm R-U connects to the upper end of the seatstays.
+		  - The forward rocker arm R-Q drives the moving eye of the rear shock.
+
+		Full-extension reference points relative to the bottom bracket:
+		  P  main chainstay pivot = ( 0.00000000, 0, 0.10000000) m
+		  H  Horst pivot          = (-0.34739065, 0, 0.03429252) m
+		  A  rear axle            = (-0.46151955, 0, 0.03000000) m
+		  U  seatstay/rocker joint= (-0.16362915, 0, 0.29954290) m
+		  R  rocker frame pivot   = (-0.04322000, 0, 0.34116100) m
+		  Q  rocker/shock eye     = ( 0.00278000, 0, 0.36616100) m
+		  F  frame shock eye      = ( 0.01984865994, 0, 0.15685581409) m
+
+		Kinematic dimensions in the user's adjusted geometry:
+		  P-H lower-link length       = 353.55 mm
+		  H-U seatstay-link length    = 322.69 mm
+		  R-U rocker rear-arm length  = 127.40 mm
+		  R-Q rocker front-arm length =  52.35 mm
+		  shock eye-to-eye extended   = 210.00 mm
+		  shock stroke                =  50.00 mm
+
+		Initial-position:
+		  - rear_upper_link_on_upright and rear_upper_link_on_rocker coincide at U.
+		  - rear_shock_moving_eye and rear_shock_swingarm_eye coincide at Q when the
+		    shock compression coordinate is zero.
+
+		Public interface names preserved:
+		  rear_shock_swingarm_eye
+		  chain_rear_center
+		  rear_wheel_center
+		  rear_wheel_spin
+		  freehub_rel
+	-->
+
+	<geom name="rear_rocker_frame_mount" type="capsule" size="0.013"
+		fromto="-0.04322 -0.05 0.341161   -0.04322 0.05 0.341161"
+		mass="0.07" contype="0" conaffinity="0" rgba="0.18 0.25 0.81 1"/>
+
+	<!-- ================================================================ -->
+	<!-- LOWER LINK / CHAINSTAY                                           -->
+	<!-- ================================================================ -->
+	<body name="rear_chainstay" pos="0 0 0.1">
+		<joint name="rear_swing_hinge" type="hinge" axis="0 1 0"/>
+
+		<geom name="chainstay_right" type="capsule" size="0.014"
+			fromto="0 -0.06 0   -0.34739065 -0.06 -0.06570748"
+			mass="0.48" rgba="0.81 0.18 0.25 1"/>
+		<geom name="chainstay_left" type="capsule" size="0.014"
+			fromto="0 0.06 0   -0.34739065 0.06 -0.06570748"
+			mass="0.48" rgba="0.81 0.18 0.25 1"/>
+
+		<geom name="chainstay_frame_bridge" type="capsule" size="0.016"
+			fromto="0 -0.06 0   0 0.06 0"
+			mass="0.12" rgba="0.81 0.18 0.25 1"/>
+
+		<!-- ============================================================ -->
+		<!-- REAR UPRIGHT / SEATSTAYS                                     -->
+		<!-- ============================================================ -->
+		<body name="rear_upright" pos="-0.34739065 0 -0.06570748">
+			<joint name="rear_horst_hinge" type="hinge" axis="0 1 0"/>
+
+			<geom name="dropout_lower_right" type="capsule" size="0.012"
+				fromto="0 -0.06 0   -0.11412890 -0.06 -0.00429252"
+				mass="0.09" rgba="0.42 0.45 0.49 1"/>
+			<geom name="dropout_rear_right" type="capsule" size="0.012"
+				fromto="-0.11412890 -0.06 -0.00429252   -0.08412890 -0.06 0.05070748"
+				mass="0.09" rgba="0.42 0.45 0.49 1"/>
+			<geom name="dropout_front_right" type="capsule" size="0.012"
+				fromto="-0.08412890 -0.06 0.05070748   0 -0.06 0"
+				mass="0.09" rgba="0.42 0.45 0.49 1"/>
+
+			<geom name="dropout_lower_left" type="capsule" size="0.012"
+				fromto="0 0.06 0   -0.11412890 0.06 -0.00429252"
+				mass="0.09" rgba="0.42 0.45 0.49 1"/>
+			<geom name="dropout_rear_left" type="capsule" size="0.012"
+				fromto="-0.11412890 0.06 -0.00429252   -0.08412890 0.06 0.05070748"
+				mass="0.09" rgba="0.42 0.45 0.49 1"/>
+			<geom name="dropout_front_left" type="capsule" size="0.012"
+				fromto="-0.08412890 0.06 0.05070748   0 0.06 0"
+				mass="0.09" rgba="0.42 0.45 0.49 1"/>
+
+			<!--
+				Seatstays terminate at U. U is 401.74 mm from the rear axle, so with
+				the 14 mm bridge radius the bridge remains outside the 372 mm tire by
+				about 15.7 mm in the suspension plane.
+			-->
+			<geom name="seatstay_right" type="capsule" size="0.014"
+				fromto="-0.08412890 -0.06 0.05070748   0.18376150 -0.06 0.26525038"
+				mass="0.27" rgba="0.45 0.48 0.52 1"/>
+			<geom name="seatstay_left" type="capsule" size="0.014"
+				fromto="-0.08412890 0.06 0.05070748   0.18376150 0.06 0.26525038"
+				mass="0.27" rgba="0.45 0.48 0.52 1"/>
+
+			<geom name="seatstay_upper_bridge" type="capsule" size="0.014"
+				fromto="0.18376150 -0.06 0.26525038   0.18376150 0.06 0.26525038"
+				mass="0.07" rgba="0.38 0.41 0.45 1"/>
+			<geom name="rear_axle_bridge" type="capsule" size="0.014"
+				fromto="-0.11412890 -0.06 -0.00429252   -0.11412890 0.06 -0.00429252"
+				mass="0.12" rgba="0.38 0.41 0.45 1"/>
+
+			<site name="rear_upper_link_on_upright" pos="0.18376150 0 0.26525038" size="0.008" rgba="0.2 0.3 1 0.5"/>
+
+			<site name="rear_axle" pos="-0.11412890 0 -0.00429252" rgba="0.9 0.1 0.9 1" size="0.015"/>
+			<site name="chain_rear_center" pos="-0.11412890 0 -0.00429252" size="0.006" rgba="1 0.8 0 1"/>
+
+			<frame pos="-0.11412890 0 -0.00429252">
+				<include file="components/rear_wheel_29_freehub.xml"/>
+			</frame>
+		</body>
+	</body>
+
+	<!-- ================================================================ -->
+	<!-- BELL-CRANK ROCKER                                                -->
+	<!-- ================================================================ -->
+	<body name="rear_rocker" pos="-0.04322 0 0.341161">
+		<joint name="rear_rocker_hinge" type="hinge" axis="0 1 0"/>
+
+		<!--
+			Rocker-local coordinates:
+			  U = (-0.12040915, 0, -0.04161810) m  [127.40 mm seatstay arm]
+			  Q = ( 0.04600000, 0,  0.02500000) m  [52.35 mm shock arm]
+			The shock-side rocker arm is 28.52 deg above local +x at full extension.
+		-->
+		<geom name="rear_rocker_seatstay_arm_right" type="capsule" size="0.013"
+			fromto="0 -0.05 0   -0.12040915 -0.05 -0.0416181"
+			mass="0.13" rgba="0.18 0.25 0.81 1"/>
+		<geom name="rear_rocker_seatstay_arm_left" type="capsule" size="0.013"
+			fromto="0 0.05 0   -0.12040915 0.05 -0.0416181"
+			mass="0.13" rgba="0.18 0.25 0.81 1"/>
+
+		<geom name="rear_rocker_shock_arm_right" type="capsule" size="0.013"
+			fromto="0 -0.05 0   0.046 -0.05 0.025"
+			mass="0.05" rgba="0.18 0.25 0.81 1"/>
+		<geom name="rear_rocker_shock_arm_left" type="capsule" size="0.013"
+			fromto="0 0.05 0   0.046 0.05 0.025"
+			mass="0.05" rgba="0.18 0.25 0.81 1"/>
+
+		<geom name="rear_rocker_seatstay_bridge" type="capsule" size="0.012"
+			fromto="0 -0.05 0   0 0.05 0"
+			mass="0.03" rgba="0.16 0.22 0.72 1"/>
+		<geom name="rear_rocker_shock_bridge" type="capsule" size="0.012"
+			fromto="0.046 -0.05 0.025   0.046 0.05 0.025"
+			mass="0.03" rgba="0.16 0.22 0.72 1"/>
+
+		<site name="rear_upper_link_on_rocker" pos="-0.12040915 0 -0.0416181" size="0.008" rgba="1 0.3 0.2 1"/>
+		<site name="rear_shock_swingarm_eye" pos="0.046 0 0.025" size="0.01" rgba="0.2 0.8 1 1"/>
+	</body>
+</mujocoinclude>

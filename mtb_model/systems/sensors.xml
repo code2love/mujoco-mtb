@@ -1,0 +1,136 @@
+<mujocoinclude>
+	<sensor>
+		<!-- ============================================================ -->
+		<!-- FRAME                                                        -->
+		<!-- ============================================================ -->
+
+		<framepos
+			name="frame_position"
+			objtype="site"
+			objname="bottom_bracket"/>
+
+		<jointpos
+			name="frame_pitch_angle"
+			joint="frame_pitch"/>
+
+		<velocimeter
+			name="frame_velocity"
+			site="bottom_bracket"/>
+
+		<accelerometer
+			name="frame_acceleration"
+			site="bottom_bracket"/>
+
+		<gyro
+			name="frame_angular_velocity"
+			site="bottom_bracket"/>
+
+
+		<!-- ============================================================ -->
+		<!-- REAR SUSPENSION                                              -->
+		<!-- ============================================================ -->
+
+		<jointpos
+			name="rear_shock_position"
+			joint="rear_shock_compression"/>
+
+		<jointvel
+			name="rear_shock_velocity"
+			joint="rear_shock_compression"/>
+
+
+		<!-- ============================================================ -->
+		<!-- FRONT SUSPENSION                                             -->
+		<!-- ============================================================ -->
+
+		<jointpos
+			name="front_fork_position"
+			joint="front_fork_slide"/>
+
+		<jointvel
+			name="front_fork_velocity"
+			joint="front_fork_slide"/>
+
+
+		<!-- ============================================================ -->
+		<!-- WHEELS                                                       -->
+		<!-- ============================================================ -->
+
+		<jointvel
+			name="rear_wheel_speed"
+			joint="rear_wheel_spin"/>
+
+		<jointvel
+			name="front_wheel_speed"
+			joint="front_wheel_spin"/>
+
+		<framepos
+			name="rear_axle_position"
+			objtype="site"
+			objname="rear_wheel_center"/>
+
+		<framepos
+			name="front_axle_position"
+			objtype="site"
+			objname="front_wheel_center"/>
+
+
+		<!-- ============================================================ -->
+		<!-- DRIVETRAIN                                                   -->
+		<!-- ============================================================ -->
+
+		<jointpos
+			name="crank_position"
+			joint="crank_spin"/>
+
+		<jointvel
+			name="crank_speed"
+			joint="crank_spin"/>
+
+		<jointpos
+			name="rear_freehub_position"
+			joint="freehub_rel"/>
+
+		<jointvel
+			name="rear_freehub_speed"
+			joint="freehub_rel"/>
+
+		<!-- ============================================================ -->
+		<!-- CRANKSET PEDAL ANGLES                                        -->
+		<!-- ============================================================ -->
+		<jointpos
+			name="left_pedal_angle"
+			joint="left_pedal_spin"/>
+
+		<jointpos
+			name="right_pedal_angle"
+			joint="right_pedal_spin"/>
+
+		<!-- ============================================================ -->
+		<!-- RIDER JOINT ANGLES                                           -->
+		<!-- ============================================================ -->
+
+		<jointpos name="rider_right_elbow_angle" joint="rider_right_elbow"/>
+		<jointpos name="rider_left_elbow_angle" joint="rider_left_elbow"/>
+
+		<jointpos name="rider_right_shoulder_pitch_angle" joint="rider_right_shoulder_pitch"/>
+		<jointpos name="rider_right_shoulder_yaw_angle" joint="rider_right_shoulder_yaw"/>
+		<jointpos name="rider_left_shoulder_pitch_angle" joint="rider_left_shoulder_pitch"/>
+		<jointpos name="rider_left_shoulder_yaw_angle" joint="rider_left_shoulder_yaw"/>
+
+		<jointpos name="rider_right_hip_angle" joint="rider_right_hip_joint"/>
+		<jointpos name="rider_left_hip_angle" joint="rider_left_hip_joint"/>
+
+		<jointpos name="rider_right_knee_angle" joint="rider_right_knee"/>
+		<jointpos name="rider_left_knee_angle" joint="rider_left_knee"/>
+
+
+		<!-- ============================================================ -->
+		<!-- ACTUATORS                                                    -->
+		<!-- ============================================================ -->
+
+		<actuatorfrc
+			name="tow_force_sensor"
+			actuator="tow_force"/>
+	</sensor>
+</mujocoinclude>

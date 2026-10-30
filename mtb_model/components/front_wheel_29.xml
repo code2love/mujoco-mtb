@@ -1,0 +1,10 @@
+<mujocoinclude>
+	<!-- Reusable 29-inch front wheel. Place its local origin at the front axle. -->
+	<body name="front_wheel" pos="0 0 0">
+		<joint name="front_wheel_spin" type="hinge" axis="0 1 0" damping="0.002"/>
+		<inertial pos="0 0 0" mass="2.3" diaginertia="0.1185 0.2358 0.1185"/>
+		<site name="front_wheel_center" pos="0 0 0" size="0.010" rgba="0.9 0.1 0.9 1"/>
+		<geom name="front_wheel_collision" class="tire"/>
+		<geom name="front_wheel_rotation_marker" type="capsule" size="0.008" fromto="0 0 0   0.32 0 0" contype="0" conaffinity="0" rgba="1 0.2 0.1 1"/>
+	</body>
+</mujocoinclude>

@@ -1,0 +1,6 @@
+<mujocoinclude>
+	<!-- Cross-tree rear-suspension constraints. The shock connects to the suspension through rear_shock_swingarm_eye. -->
+	<equality>
+		<connect name="rear_shock_connection" site1="rear_shock_moving_eye" site2="rear_shock_swingarm_eye" solref="0.001 1" solimp="0.995 0.995 0.001 0.5 2"/>
+	</equality>
+</mujocoinclude>

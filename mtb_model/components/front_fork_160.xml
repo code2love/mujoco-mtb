@@ -1,0 +1,104 @@
+<mujocoinclude>
+    <!--
+        Reusable 160 mm front fork in a canonical vertical orientation.
+
+        Local coordinate convention:
+          - fork crown is at the local origin
+          - fully extended fork axis points along local -z
+          - compression moves the lowers along local +z
+          - fork offset/rake points along local +x
+
+        For a 64 deg head angle to the ground, rotate by -26 deg about y.
+    -->
+
+    <body name="front_fork_upper" pos="0 0 0">
+
+        <!-- Crown -->
+        <geom name="fork_crown"
+              type="capsule"
+              size="0.018"
+              fromto="0 -0.055 0   0 0.055 0"
+              mass="0.20"
+              rgba="0.35 0.37 0.40 1"/>
+
+        <!-- Fixed stanchions -->
+        <geom name="fork_stanchion_right"
+              type="capsule"
+              size="0.018"
+              fromto="0 -0.055 0   0 -0.055 -0.340000"
+              mass="0.30"
+              rgba="0.55 0.57 0.60 1"/>
+
+        <geom name="fork_stanchion_left"
+              type="capsule"
+              size="0.018"
+              fromto="0 0.055 0   0 0.055 -0.340000"
+              mass="0.30"
+              rgba="0.55 0.57 0.60 1"/>
+
+        <!-- Moving lowers -->
+        <body name="front_fork_lower" pos="0 0 0">
+
+            <joint name="front_fork_slide"
+                   type="slide"
+                   axis="0 0 1"
+                   limited="true"
+                   range="0 0.160"
+                   springref="0"
+                   stiffness="9700"
+                   damping="100"/>
+
+            <!-- Axle: 44 mm rake and 569.302 mm axial distance -->
+            <site name="front_axle"
+                  pos="0.044000 0 -0.569302"
+                  size="0.015"
+                  rgba="0.9 0.1 0.9 1"/>
+
+            <!-- Lower fork legs -->
+            <geom name="fork_lower_right"
+                  type="capsule"
+                  size="0.023"
+                  fromto="0 -0.055 -0.200000   0 -0.055 -0.569302"
+                  mass="0.46"
+                  rgba="0.16 0.18 0.20 1"/>
+
+            <geom name="fork_lower_left"
+                  type="capsule"
+                  size="0.023"
+                  fromto="0 0.055 -0.200000   0 0.055 -0.569302"
+                  mass="0.46"
+                  rgba="0.16 0.18 0.20 1"/>
+
+            <!-- 44 mm fork offset -->
+            <geom name="fork_dropout_right"
+                  type="capsule"
+                  size="0.016"
+                  fromto="0 -0.055 -0.569302
+                          0.044000 -0.055 -0.569302"
+                  mass="0.04"
+                  rgba="0.16 0.18 0.20 1"/>
+
+            <geom name="fork_dropout_left"
+                  type="capsule"
+                  size="0.016"
+                  fromto="0 0.055 -0.569302
+                          0.044000 0.055 -0.569302"
+                  mass="0.04"
+                  rgba="0.16 0.18 0.20 1"/>
+
+            <geom name="fork_axle_bridge"
+                  type="capsule"
+                  size="0.016"
+                  fromto="0.044000 -0.055 -0.569302
+                          0.044000 0.055 -0.569302"
+                  mass="0.20"
+                  rgba="0.20 0.22 0.24 1"/>
+
+            <!-- Front wheel -->
+            <frame pos="0.044000 0 -0.569302">
+                <include file="components/front_wheel_29.xml"/>
+            </frame>
+
+        </body>
+    </body>
+</mujocoinclude>

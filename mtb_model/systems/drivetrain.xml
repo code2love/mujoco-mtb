@@ -1,0 +1,32 @@
+<mujocoinclude>
+	<!-- Cross-component drivetrain elements: chain geometry/rotation, chain constraint, crank torque and freehub clutch. -->
+	<tendon>
+		<spatial name="chain_geometry" width="0.003" rgba="1 0 0 0">
+			<site site="chain_bb_center"/>
+			<site site="chain_rear_center"/>
+		</spatial>
+		<fixed name="chain_rotation">
+			<!-- Front chainring -->
+			<joint joint="crank_spin" coef="0.0647846"/>
+			<!--
+				Absolute cassette rotation:
+
+				theta_cassette =
+				theta_rear_wheel
+				+ theta_freehub_rel
+
+				Note:
+				The coefficients result from the chainring and rear sprocket pitch radius.
+			-->
+			<joint joint="rear_wheel_spin" coef="-0.0486492"/>
+			<joint joint="freehub_rel" coef="-0.0486492"/>
+		</fixed>
+	</tendon>
+	<equality>
+		<tendon name="chain_constraint" tendon1="chain_rotation" tendon2="chain_geometry" polycoef="0 -1 0 0 0" solref="0.002 1" solimp="0.99 0.99 0.001 0.5 2"/>
+	</equality>
+	<actuator>
+		<motor name="crank_torque" joint="crank_spin" gear="1" ctrllimited="true" ctrlrange="0 250"/>
+		<motor name="freehub_clutch" joint="freehub_rel" gear="1" ctrllimited="true" ctrlrange="-10000 10000"/>
+	</actuator>
+</mujocoinclude>

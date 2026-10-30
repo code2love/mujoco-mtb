@@ -1,0 +1,169 @@
+<mujocoinclude>
+	<!-- Passive rider model. Local origin is the rider hip. Bike-specific initial rider placement is defined in the main model. -->
+	<body name="rider_hip" pos="0 0 0">
+		<!--
+				Planar motion of the complete rider relative to the bicycle/world.
+				The four hand/foot attachment constraints close the kinematic loops.
+			-->
+		<joint name="rider_x" type="slide" axis="1 0 0" />
+		<joint name="rider_z" type="slide" axis="0 0 1" />
+		<joint name="rider_pitch" type="hinge" axis="0 1 0" />
+		<!--
+				Wang & Hull (1997) model the visceral mass separately.
+			-->
+		<inertial pos="0 0 0.217075292" mass="11.45" diaginertia="0.001 0.001 0.001" />
+		<!-- Visual pelvis -->
+		<geom name="rider_hip_geom" type="capsule" size="0.075" fromto="0 -0.145 0     0 0.145 0" contype="0" conaffinity="0" rgba="0.12 0.12 0.14 1" />
+		<!-- ============================================================ -->
+		<!-- UPPER BODY + HEAD                                            -->
+		<!-- ============================================================ -->
+		<!--
+				No joint:
+				this body is rigidly connected to the hip.
+
+				The torso is leaned farther forward for an aggressive trail/attack position.
+				Hip-to-shoulder length = 0.53 m, matching Table 1.
+			-->
+		<body name="rider_upper_body" pos="0 0 0">
+			<frame pos="0 0 0" euler="0 47.5 0">
+				<!--
+						Table 1 torso mass (including head) = 32.79 kg.
+						The reported sagittal-normal inertia is 2.221 kg m^2.
+						The remaining diagonal entries use the proportions of the
+						previous 3-D upper-body inertia.
+					-->
+				<inertial pos="0 0 0.26" mass="32.79" diaginertia="2.363886005 2.221 4.038409707" />
+				<!--
+						Simplified rectangular torso.
+						Hip-to-shoulder length remains 0.53 m.
+					-->
+				<geom name="rider_torso_geom" type="box" size="0.060 0.155 0.22 " pos="0 0 0.30" euler="0 0 0" contype="0" conaffinity="0" rgba="0.20 0.48 0.18 1" />
+				<!-- Head center continues along the torso axis. No neck geometry is used. -->
+				<geom name="rider_head" type="sphere" size="0.090" pos="0 0 0.68" contype="0" conaffinity="0" rgba="0.82 0.68 0.55 1" />
+				<!-- ========================================================== -->
+				<!-- TWO-SEGMENT ARMS WITH 2-DOF SHOULDERS                      -->
+				<!-- ========================================================== -->
+				<!--
+						Table 1 average segment lengths:
+							upper arm = 0.32 m
+							lower arm = 0.32 m
+					-->
+				<!-- ========================================================== -->
+				<!-- RIGHT ARM                                                  -->
+				<!-- ========================================================== -->
+				<body name="rider_right_upper_arm" pos="0 -0.2 0.53">
+					<frame pos="0 0 0" euler="0 5 -30"> 
+						<!--
+								2-DOF shoulder.
+							-->
+						<!-- <joint name="rider_right_shoulder_roll" type="hinge" axis="1 0 0" /> -->
+						<joint name="rider_right_shoulder_pitch" type="hinge" axis="0 1 0"  range="-30 10"/>
+						<joint name="rider_right_shoulder_yaw" type="hinge" axis="0 0 1" />
+						<inertial pos="0.16 0 0" mass="2.1" diaginertia="0.0155 0.0145 0.003" />
+						<site name="rider_right_shoulder_site" pos="0 0 0" size="0.006" rgba="1 0.4 0.4 1" />
+						<!-- Upper arm length = 0.32 m. -->
+						<geom name="rider_right_upper_arm_geom" type="capsule" size="0.040" fromto="0 0 0     0.32 0 0" contype="0" conaffinity="0" rgba="0.82 0.68 0.55 1" />
+						<body name="rider_right_forearm" pos="0.32 0 0">
+							<frame pos="0 0 0" euler="0 0 50">
+								<!--
+										1-DOF elbow. The hinge axis is perpendicular to the
+										initial upper-arm/forearm plane.
+									-->
+								<joint name="rider_right_elbow" type="hinge" axis="0 0 1" limited="true" range="-35 60" springref="0" stiffness="86.2" damping="5.3" />
+								<!-- Lower-arm and hand masses are lumped into the existing forearm body. -->
+								<inertial pos="0.16 0 0" mass="1.755" diaginertia="0.016927179 0.016427179 0.001" />
+								<site name="rider_right_elbow_site" pos="0 0 0" size="0.007" rgba="0.9 0.5 0.1 1" />
+								<!-- Forearm length = 0.32 m. -->
+								<geom name="rider_right_forearm_geom" type="capsule" size="0.032" fromto="0 0 0     0.32 0 0" contype="0" conaffinity="0" rgba="0.82 0.68 0.55 1" />
+								<!-- Initially coincident with right_hand_grip. -->
+								<site name="rider_right_wrist" pos="0.32 0 0" size="0.007" rgba="1 0.2 0.2 1" />
+							</frame>
+						</body>
+					</frame>
+				</body>
+				<!-- ========================================================== -->
+				<!-- LEFT ARM                                                   -->
+				<!-- ========================================================== -->
+				<body name="rider_left_upper_arm" pos="0 0.2 0.53">
+					<frame pos="0 0 0" euler="0 5 30"> 
+						<!--
+								2-DOF shoulder.
+							-->
+						<!-- <joint name="rider_left_shoulder_roll" type="hinge" axis="1 0 0" /> -->
+						<joint name="rider_left_shoulder_pitch" type="hinge" axis="0 1 0" range="-30 10"/>
+						<joint name="rider_left_shoulder_yaw" type="hinge" axis="0 0 1" />
+						<inertial pos="0.16 0 0" mass="2.095" diaginertia="0.0155 0.0145 0.003" />
+						<site name="rider_left_shoulder_site" pos="0 0 0" size="0.006" rgba="1 0.4 0.4 1" />
+						<!-- Upper arm length = 0.32 m. -->
+						<geom name="rider_left_upper_arm_geom" type="capsule" size="0.040" fromto="0 0 0     0.32 0 0" contype="0" conaffinity="0" rgba="0.82 0.68 0.55 1" />
+						<body name="rider_left_forearm" pos="0.32 0 0">
+							<frame pos="0 0 0" euler="0 0 -50">
+								<!-- Mirrored 1-DOF elbow hinge. -->
+								<joint name="rider_left_elbow" type="hinge" axis="0 0 -1" limited="true" range="-35 60" springref="0" stiffness="86.2" damping="5.3" />
+								<inertial pos="0.16 0 0" mass="1.755" diaginertia="0.016927179 0.016427179 0.001" />
+								<site name="rider_left_elbow_site" pos="0 0 0" size="0.007" rgba="0.9 0.5 0.1 1" />
+								<!-- Forearm length = 0.32 m. -->
+								<geom name="rider_left_forearm_geom" type="capsule" size="0.032" fromto="0 0 0     0.32 0 0" contype="0" conaffinity="0" rgba="0.82 0.68 0.55 1" />
+								<!-- Initially coincident with left_hand_grip. -->
+								<site name="rider_left_wrist" pos="0.32 0 0" size="0.007" rgba="1 0.2 0.2 1" />
+							</frame>
+						</body>
+					</frame>
+				</body>
+			</frame>
+		</body>
+		<!-- ============================================================ -->
+		<!-- RIGHT LEG                                                    -->
+		<!-- ============================================================ -->
+		<!--
+				Right pedal is initially the forward pedal.
+
+				Table 1:
+					upper-leg length = 0.44 m
+					lower-leg length = 0.44 m
+			-->
+		<body name="rider_right_upper_leg" pos="0 -0.139 0">
+			<frame pos="0 0 0" euler="0 -50 0">
+				<joint name="rider_right_hip_joint" type="hinge" axis="0 1 0" stiffness="300" damping="100" />
+				<inertial pos="0 0 -0.22" mass="8.05" diaginertia="0.151668639 0.144 0.039536095" />
+				<site name="rider_right_hip_site" pos="0 0 0" size="0.007" rgba="1 0.4 0.4 1" />
+				<geom name="rider_right_upper_leg_geom" type="capsule" size="0.065" fromto="0 0 0     0.0 0 -0.44" contype="0" conaffinity="0" rgba="0.12 0.12 0.14 1" />
+				<body name="rider_right_lower_leg" pos="0 0 -0.44">
+					<frame pos="0 0 0" euler="0 55 0">
+						<joint name="rider_right_knee" type="hinge" axis="0 1 0" range="-30 90" />
+						<!-- Lower-leg and foot masses are lumped into the existing lower-leg body. -->
+						<inertial pos="0 0 -0.22" mass="4.075" diaginertia="0.080438447 0.080131274 0.005959162" />
+						<geom name="rider_right_lower_leg_geom" type="capsule" size="0.050" fromto="0 0 0     0 0 -0.44" contype="0" conaffinity="0" rgba="0.82 0.68 0.55 1" />
+						<!-- Anatomical ankle point, above the pedal spindle at qpos0. -->
+						<site name="rider_right_ankle" pos="0 0 -0.44" size="0.007" rgba="1 0.2 0.2 1" />
+						<!-- Virtual foot/shoe attachment point; coincides with right_pedal_center at qpos0. -->
+						<site name="rider_right_foot_contact" pos="0.1 0 -0.54" size="0.005" rgba="0.2 0.8 1 0" />
+					</frame>
+				</body>
+			</frame>
+		</body>
+		<!-- ============================================================ -->
+		<!-- LEFT LEG                                                     -->
+		<!-- ============================================================ -->
+		<!-- Left pedal is initially the rearward pedal. -->
+		<body name="rider_left_upper_leg" pos="0 0.139 0">
+			<frame pos="0 0 0" euler="0 -30 0">
+				<joint name="rider_left_hip_joint" type="hinge" axis="0 1 0" stiffness="300" damping="100" />
+				<inertial pos="0 0 -0.22" mass="8.05" diaginertia="0.151668639 0.144 0.039536095" />
+				<site name="rider_left_hip_site" pos="0 0 0" size="0.007" rgba="1 0.4 0.4 1" />
+				<geom name="rider_left_upper_leg_geom" type="capsule" size="0.065" fromto="0 0 0     0 0 -0.44" contype="0" conaffinity="0" rgba="0.12 0.12 0.14 1" />
+				<body name="rider_left_lower_leg" pos="0 0 -0.44">
+					<frame pos="0 0 0" euler="0 65 0">
+						<joint name="rider_left_knee" type="hinge" axis="0 1 0" range="-30 90" />
+						<inertial pos="0 0 -0.22" mass="4.075" diaginertia="0.080438447 0.080131274 0.005959162" />
+						<geom name="rider_left_lower_leg_geom" type="capsule" size="0.050" fromto="0 0 0     0 0 -0.44" contype="0" conaffinity="0" rgba="0.82 0.68 0.55 1" />
+						<!-- Anatomical ankle point, above the pedal spindle at qpos0. -->
+						<site name="rider_left_ankle" pos="0 0 -0.44" size="0.007" rgba="1 0.2 0.2 1" />
+						<!-- Virtual foot/shoe attachment point; coincides with left_pedal_center at qpos0. -->
+						<site name="rider_left_foot_contact" pos="0.1 0 -0.54" size="0.005" rgba="0.2 0.8 1 0" />
+					</frame>
+				</body>
+			</frame>
+		</body>
+	</body>
+</mujocoinclude>

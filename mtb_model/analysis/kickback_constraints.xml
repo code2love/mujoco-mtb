@@ -1,0 +1,9 @@
+<mujocoinclude>
+	<!-- Optional pedal-kickback analysis constraints. They remain inactive during normal simulation. -->
+	<equality>
+		<weld name="analysis_fix_main_frame" body1="main_frame" active="false" solref="0.002 1" solimp="0.99 0.99 0.001 0.5 2"/>
+		<joint name="analysis_rear_shock_position" joint1="rear_shock_compression" polycoef="0 0 0 0 0" active="false" solref="0.002 1" solimp="0.99 0.99 0.001 0.5 2"/>
+		<joint name="analysis_fix_rear_wheel" joint1="rear_wheel_spin" polycoef="0 0 0 0 0" active="false" solref="0.002 1" solimp="0.99 0.99 0.001 0.5 2"/>
+		<joint name="analysis_lock_freehub" joint1="freehub_rel" polycoef="0 0 0 0 0" active="false" solref="0.002 1" solimp="0.99 0.99 0.001 0.5 2"/>
+	</equality>
+</mujocoinclude>

@@ -1,0 +1,32 @@
+<mujocoinclude>
+	<!-- Single-pivot rear suspension. Keep the interface names rear_shock_swingarm_eye, chain_rear_center, rear_wheel_center, rear_wheel_spin and freehub_rel when implementing alternative suspension layouts. -->
+	<body name="rear_swingarm" pos="0.000 0 0.100" euler="0 1.243604 0">
+		<!--
+					Single-pivot swingarm.
+				-->
+		<joint name="rear_swing_hinge" type="hinge" axis="0 1 0"/>
+		<!-- Moving shock eye on the swingarm. -->
+		<site name="rear_shock_swingarm_eye" pos="-0.01838626 0 0.16321638" size="0.010" rgba="0.2 0.8 1 1"/>
+		<site name="rear_axle" pos="-0.45989161 0 -0.08000000" rgba="0.9 0.1 0.9 1" size="0.015"/>
+		<site name="chain_rear_center" pos="-0.45989161 0 -0.08000000" size="0.006" rgba="1 0.8 0 1"/>
+
+		<geom name="swingarm_right" type="capsule" size="0.014" fromto="0 -0.06 0      -0.45989161 -0.06 -0.08000000" mass="0.55" rgba="0.45 0.48 0.52 1"/>
+		<geom name="swingarm_left" type="capsule" size="0.014" fromto="0 0.06 0      -0.45989161 0.06 -0.08000000" mass="0.55" rgba="0.45 0.48 0.52 1"/>
+		<!--
+					Upper swingarm tubes and shock tower added to create an
+					triangular rear structure.
+				-->
+		<geom name="swingarm_shock_tower_right" type="capsule" size="0.016" fromto="0 -0.060 0      -0.01838626 -0.060 0.16321638" mass="0.12" rgba="0.38 0.41 0.45 1"/>
+		<geom name="swingarm_shock_tower_left" type="capsule" size="0.016" fromto="0 0.060 0      -0.01838626 0.060 0.16321638" mass="0.12" rgba="0.38 0.41 0.45 1"/>
+		<geom name="swingarm_upper_right" type="capsule" size="0.014" fromto="-0.01838626 -0.060 0.16321638      -0.45989161 -0.060 -0.08000000" mass="0.25" rgba="0.45 0.48 0.52 1"/>
+		<geom name="swingarm_upper_left" type="capsule" size="0.014" fromto="-0.01838626 0.060 0.16321638      -0.45989161 0.060 -0.08000000" mass="0.25" rgba="0.45 0.48 0.52 1"/>
+		<!-- Transverse bridges. -->
+		<geom name="swingarm_pivot_bridge" type="capsule" size="0.016" fromto="0 -0.060 0      0 0.060 0" mass="0.15" rgba="0.38 0.41 0.45 1"/>
+		<geom name="swingarm_shock_mount_bridge" type="capsule" size="0.014" fromto="-0.01838626 -0.060 0.16321638      -0.01838626 0.060 0.16321638" mass="0.10" rgba="0.38 0.41 0.45 1"/>
+		<geom name="swingarm_axle_bridge" type="capsule" size="0.014" fromto="-0.45989161 -0.060 -0.08000000      -0.45989161 0.060 -0.08000000" mass="0.15" rgba="0.38 0.41 0.45 1"/>
+		<!-- Rear wheel: ellipsoid contact shape. -->
+		<frame pos="-0.45989161 0 -0.08000000">
+			<include file="components/rear_wheel_29_freehub.xml"/>
+		</frame>
+	</body>
+</mujocoinclude>

@@ -1,0 +1,82 @@
+<mujocoinclude>
+	<!-- Reusable crankset, chainring, crank arms and pedals. Local origin is the bottom-bracket center. -->
+	<body name="crankset" pos="0 0 0">
+		<!--
+					Entire crankset rotates around the bottom-bracket axis.
+
+					Coordinate convention:
+					+y = left side
+					-y = drive side / chainring side
+				-->
+		<joint name="crank_spin" type="hinge" axis="0 1 0" frictionloss="0.1" damping="0.0"/>
+		<!-- ============================================================ -->
+		<!-- BOTTOM-BRACKET / CRANK AXLE                                  -->
+		<!-- ============================================================ -->
+		<!--
+					Simplified crank axle through the BB.
+
+					Total visible width:
+					105 mm
+				-->
+		<geom name="crank_axle" type="cylinder" size="0.015 0.0525" pos="0 0 0" euler="90 0 0" mass="0.08" contype="0" conaffinity="0" rgba="0.18 0.19 0.21 1"/>
+		<!-- ============================================================ -->
+		<!-- 32T CHAINRING                                                -->
+		<!-- ============================================================ -->
+		<!--
+					32T chainring.
+
+					Pitch radius:
+					r = 12.7 mm / (2 sin(pi/32))
+					= 64.78 mm
+
+					Note:
+					12.7 mm is the chain pitch of a standard bicycle chain.
+				-->
+		<geom name="front_chainring" type="cylinder" size="0.06478 0.002" pos="0 -0.04 0" euler="90 0 0" mass="0.08" rgba="0.75 0.78 0.82 1"/>
+		<!-- ============================================================ -->
+		<!-- RIGHT / DRIVE-SIDE CRANK                                     -->
+		<!-- ============================================================ -->
+		<!--
+					170 mm crank.
+
+					Pedal spindle axis is located at:
+					x = +0.170 m
+					y = -0.085 m
+
+					Together with the left side this gives an approximate
+					Q-factor of 170 mm.
+				-->
+		<geom name="right_crank_arm" type="capsule" size="0.010" fromto="0.020 -0.050 0      0.170 -0.085 0" mass="0.17" contype="0" conaffinity="0" rgba="0.12 0.13 0.15 1"/>
+		<!-- Pedal spindle -->
+		<geom name="right_pedal_spindle" type="capsule" size="0.006" fromto="0.170 -0.085 0      0.170 -0.139 0" mass="0.025" contype="0" conaffinity="0" rgba="0.55 0.57 0.60 1"/>
+		<!--
+					Freely rotating enduro-style flat pedal:
+					110 mm fore-aft
+					108 mm lateral
+					12 mm thick
+				-->
+		<body name="right_pedal_body" pos="0.170 -0.139 0">
+			<joint name="right_pedal_spin" type="hinge" axis="0 1 0" damping="0.01" frictionloss="0.01"/>
+			<!-- Pedal coordinates are now relative to the pedal spindle -->
+			<geom name="right_pedal" type="box" size="0.055 0.054 0.006" pos="0 0 0" mass="0.193" contype="0" conaffinity="0" rgba="0.10 0.11 0.12 1"/>
+			<site name="right_pedal_center" pos="0 0 0" size="0.008" rgba="0.2 0.8 1 1"/>
+		</body>
+		<!-- ============================================================ -->
+		<!-- LEFT / NON-DRIVE-SIDE CRANK                                  -->
+		<!-- ============================================================ -->
+		<!--
+					Left crank is 180 deg opposed to the right crank.
+				-->
+		<geom name="left_crank_arm" type="capsule" size="0.010" fromto="-0.020 0.050 0      -0.170 0.085 0" mass="0.17" contype="0" conaffinity="0" rgba="0.12 0.13 0.15 1"/>
+		<!-- Pedal spindle -->
+		<geom name="left_pedal_spindle" type="capsule" size="0.006" fromto="-0.170 0.085 0      -0.170 0.139 0" mass="0.025" contype="0" conaffinity="0" rgba="0.55 0.57 0.60 1"/>
+		<!-- Freely rotating left pedal -->
+		<body name="left_pedal_body" pos="-0.170 0.139 0">
+			<joint name="left_pedal_spin" type="hinge" axis="0 1 0" damping="0.01" frictionloss="0.01"/>
+			<geom name="left_pedal" type="box" size="0.055 0.054 0.006" pos="0 0 0" mass="0.193" contype="0" conaffinity="0" rgba="0.10 0.11 0.12 1"/>
+			<site name="left_pedal_center" pos="0 0 0" size="0.008" rgba="0.2 0.8 1 1"/>
+		</body>
+		<!-- Existing visual indication of chainring angle -->
+		<geom name="chainring_rotation_marker" type="capsule" size="0.003" fromto="0 -0.048 0      0.058 -0.048 0" contype="0" conaffinity="0" rgba="1 0.15 0.05 1"/>
+	</body>
+</mujocoinclude>

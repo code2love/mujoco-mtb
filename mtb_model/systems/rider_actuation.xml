@@ -1,0 +1,54 @@
+<mujocoinclude>
+
+	<!-- ============================================================ -->
+	<!-- RIDER ACTUATION                                               -->
+	<!-- ============================================================ -->
+
+	<tendon>
+		<!--
+			Coordinates the two elbow joints so that one actuator
+			can apply equal torque to both elbows.
+		-->
+		<fixed name="elbow_pair">
+			<joint joint="rider_right_elbow" coef="1"/>
+			<joint joint="rider_left_elbow" coef="1"/>
+		</fixed>
+	</tendon>
+
+	<actuator>
+	
+		<motor name="elbow_preload"
+			tendon="elbow_pair"
+			gear="1"
+			ctrllimited="true"
+			ctrlrange="-100 100"/>
+
+		<motor
+			name="rider_right_leg_preload"
+			tendon="rider_right_leg_spring"
+			gear="1"
+			ctrllimited="true"
+			ctrlrange="-1500 3000"/>
+
+		<motor
+			name="rider_left_leg_preload"
+			tendon="rider_left_leg_spring"
+			gear="1"
+			ctrllimited="true"
+			ctrlrange="-1500 3000"/>
+
+		<motor name="rider_right_knee_torque"
+			joint="rider_right_knee"
+			gear="1"
+			ctrllimited="true"
+			ctrlrange="-250 250"/>
+
+		<motor name="rider_left_knee_torque"
+			joint="rider_left_knee"
+			gear="1"
+			ctrllimited="true"
+			ctrlrange="-250 250"/>
+
+	</actuator>
+
+</mujocoinclude>

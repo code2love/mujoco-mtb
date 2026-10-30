@@ -1,0 +1,23 @@
+<mujocoinclude>
+	<!-- Reusable 210 x 50 mm rear shock. Its local origin is the frame-side eye. Bike-specific mount position and orientation are defined in the main model. -->
+	<body name="rear_shock" pos="0 0 0">
+		<!-- Eyelet rotation at the frame mount. -->
+		<joint name="rear_shock_frame_hinge" type="hinge" axis="0 1 0" damping="0.02"/>
+		<!-- Front eyelet. -->
+		<geom name="rear_shock_front_eye" type="sphere" size="0.016" pos="0 0 0" mass="0.06" contype="0" conaffinity="0" rgba="0.12 0.13 0.15 1"/>
+		<!-- Generic inline rear shock body. -->
+		<geom name="rear_shock_air_can" type="capsule" size="0.024" fromto="0.018 0 0      0.128 0 0" mass="0.49" contype="0" conaffinity="0" rgba="0.08 0.09 0.10 1"/>
+		<!--
+					The rod body's reference position is 210 mm from the frame eye.
+					Positive q moves it back along -x, shortening the shock.
+				-->
+		<body name="rear_shock_rod" pos="0.210 0 0">
+			<joint name="rear_shock_compression" type="slide" axis="-1 0 0" limited="true" range="0 0.050" springref="0" stiffness="80000" damping="900" solreflimit="0.002 1" solimplimit="0.99 0.99 0.001 0.5 2"/>
+			<!-- Simplified damper shaft. -->
+			<geom name="rear_shock_shaft" type="capsule" size="0.008" fromto="0 0 0       -0.085 0 0" mass="0.10" contype="0" conaffinity="0" rgba="0.78 0.57 0.16 1"/>
+			<!-- Rear eyelet. -->
+			<geom name="rear_shock_rear_eye" type="sphere" size="0.014" pos="0 0 0" mass="0.058" contype="0" conaffinity="0" rgba="0.12 0.13 0.15 1"/>
+			<site name="rear_shock_moving_eye" pos="0 0 0" size="0.009" rgba="0.2 0.8 1 1"/>
+		</body>
+	</body>
+</mujocoinclude>

@@ -1,0 +1,28 @@
+<mujocoinclude>
+    <actuator>
+
+		<motor name="bb_load_kg" site="bottom_bracket" refsite="world_reference" gear="0 0 -9.81 0 0 0" ctrllimited="true" ctrlrange="0 200"/>
+
+		<motor name="tow_force"
+			site="handlebar_center"
+			refsite="world_reference"
+			gear="1 0 0 0 0 0"
+			ctrllimited="true"
+			ctrlrange="-2500 2500"/>
+
+		<motor
+			name="front_brake"
+			joint="front_wheel_spin"
+			gear="1"
+			ctrllimited="true"
+			ctrlrange="-240 240"/>
+
+		<motor
+			name="rear_brake"
+			joint="rear_wheel_spin"
+			gear="1"
+			ctrllimited="true"
+			ctrlrange="-240 240"/>
+		
+	</actuator>
+</mujocoinclude>

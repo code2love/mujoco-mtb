@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# MuJoCo runtime log
+MUJOCO_LOG.TXT
+
+# Training logs and generated policy checkpoints
+learning/logs/
+learning/models/
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Editor settings
+.vscode/

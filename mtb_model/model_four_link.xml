@@ -1,0 +1,125 @@
+<mujoco model="mtb_2d_four_link"> 
+	<asset> 
+		<texture name="sky"
+				type="skybox"
+				builtin="flat"
+				rgb1="0.10 0.12 0.16"
+				rgb2="0.10 0.12 0.16"
+				width="512"
+				height="512"/>
+
+		<hfield name="terrain"
+				nrow="21"
+				ncol="3001"
+				size="30 2 1 0.1"/>
+	</asset>
+	<compiler angle="degree" autolimits="true"/>
+	<option integrator="implicitfast" timestep="0.001" gravity="0 0 -9.81"/>
+	<visual>
+		<headlight ambient="0.45 0.45 0.45" diffuse="0.75 0.75 0.75" specular="0.25 0.25 0.25"/>
+	</visual>
+	<include file="common/defaults.xml"/>
+	<worldbody>
+		<camera name="bike_side" mode="trackcom" pos="0.000 -4.531 2.512" xyaxes="1.000 -0.000 -0.000 0.000 0.485 0.875"/>
+		<site name="world_reference" pos="0 0 0" size="0.001" rgba="0 0 0 0"/>
+		
+		<geom name="ground"
+			type="hfield"
+			hfield="terrain"
+			pos="25 0 0"
+			contype="1"
+			conaffinity="1"
+			solref="0.001 1" solimp="0.995 0.995 0.001 0.5 2"
+			rgba="0.55 0.58 0.62 1"/>
+
+		<body name="main_frame" pos="0 0 0.342">
+			<!-- Three planar DOFs for the complete bicycle. -->
+			<joint name="frame_x" type="slide" axis="1 0 0"/>
+			<joint name="frame_z" type="slide" axis="0 0 1"/>
+			<joint name="frame_pitch" type="hinge" axis="0 1 0"/>
+			<!-- Frame reference points -->
+			<site name="bottom_bracket" pos="0 0 0" rgba="1 0.2 0.2 1"/>
+			<site name="rear_pivot_on_frame" pos="0.000 0 0.100" rgba="1 0.6 0.1 1"/>
+			<site name="headset_upper" pos="0.460 0 0.625" rgba="0.2 0.8 1 1"/>
+			<!-- Head tube -->
+			<site name="headset_lower" pos="0.4885 0 0.5670" rgba="0.2 0.8 1 1"/>
+			<site name="seat_tube_top" pos="-0.095 0 0.409" rgba="0.3 1 0.3 1"/>
+			<!-- Front triangle -->
+			<geom name="down_tube" type="capsule" size="0.028" fromto="0.010 0 0.020   0.4885 0 0.5670" mass="1.15"/>
+			<geom name="seat_tube" type="capsule" size="0.024" fromto="0 0 0.010   -0.095 0 0.409" mass="0.65"/>
+			<!-- ================================================================ -->
+			<!-- SEAT POST AND SADDLE                                             -->
+			<!-- ================================================================ --> 
+			<!-- Seat post -->
+			<geom name="seat_post" type="capsule" size="0.014" fromto="-0.095 0 0.409     -0.117 0 0.501" mass="0.25" contype="0" conaffinity="0" rgba="0.18 0.19 0.21 1"/>
+			<!-- Simplified saddle -->
+			<geom name="saddle" type="ellipsoid" size="0.125 0.0725 0.015" pos="-0.132 0 0.517" euler="0 -4 0" mass="0.25" contype="0" conaffinity="0" rgba="0.08 0.08 0.09 1"/>
+			<!-- Useful reference point for rider modelling -->
+			<site name="saddle_center" pos="-0.132 0 0.517" size="0.010" rgba="0.3 0.9 0.3 1"/>
+			<geom name="top_tube" type="capsule" size="0.022" fromto="-0.095 0 0.409   0.460 0 0.625" mass="0.70"/>
+			<geom name="head_tube" type="capsule" size="0.027" fromto="0.4885 0 0.5670   0.460 0 0.625" mass="0.30"/>
+			<geom name="bb_shell" type="cylinder" size="0.032 0.035" pos="0 0 0" euler="90 0 0" mass="0.20"/>
+			<!-- Center used to measure suspension-dependent chain growth. -->
+			<site name="chain_bb_center" pos="0 0 0" size="0.006" rgba="1 0.8 0 1"/>
+			<!-- ================================================================ -->
+			<!-- CRANKSET, CRANK ARMS AND PEDALS                                   -->
+			<!-- ================================================================ -->
+			<include file="components/crankset.xml"/>
+			<!-- ================================================================ -->
+			<!-- REAR SUSPENSION: ROCKER-DRIVEN FOUR-LINK                        -->
+			<!-- ================================================================ -->
+
+			<site name="rear_shock_frame_eye" pos="0.01984865994 0 0.15685581409" size="0.010" rgba="0.2 0.8 1 1"/>
+			<frame pos="0.01984865994 0 0.15685581409" euler="0 -94.662105621 0">
+				<include file="components/rear_shock_210x50.xml"/>
+			</frame>
+
+			<include file="suspension/four_link.xml"/>
+			<!-- ================================================================ -->
+			<!-- COCKPIT: STEERER, STEM AND HANDLEBAR                              -->
+			<!-- ================================================================ -->
+			<!-- Visible steerer section above upper headset -->
+			<geom name="steerer_extension" type="capsule" size="0.014" fromto="0.460 0 0.625     0.445 0 0.656" mass="0.08" rgba="0.20 0.22 0.24 1"/>
+			<geom name="stem" type="capsule" size="0.016" fromto="0.445 0 0.656     0.490 0 0.677" mass="0.15" rgba="0.15 0.16 0.18 1"/>
+			<!-- Handlebar center -->
+			<site name="handlebar_center" pos="0.490 0 0.677" size="0.010" rgba="0.2 0.8 1 1"/>
+			<!-- 720 mm handlebar -->
+			<geom name="handlebar" type="capsule" size="0.011" fromto="0.490 -0.360 0.677     0.490  0.360 0.677" mass="0.25" rgba="0.12 0.13 0.15 1"/>
+			<!-- Central clamp region -->
+			<geom name="handlebar_clamp_section" type="capsule" size="0.0159" fromto="0.490 -0.035 0.677     0.490  0.035 0.677" mass="0.04" rgba="0.18 0.19 0.21 1"/>
+			<!-- Rider hand attachment points at approximate centers of 130 mm grips.
+				The 720 mm bar extends to y = +/-0.360 m; grip centers are at +/-0.295 m. -->
+			<site name="right_hand_grip" pos="0.490 -0.295 0.677" size="0.008" rgba="0.2 1 0.2 1"/>
+			<site name="left_hand_grip" pos="0.490 0.295 0.677" size="0.008" rgba="0.2 1 0.2 1"/>
+			<!-- ================================================================ -->
+			<!-- FRONT FORK                                                       -->
+			<!-- ================================================================ -->
+			<!--
+				The front fork is fixed against steering because the model is planar.
+
+				The steering/fork axis points down.
+
+				Fork compression moves the lower assembly in the opposite direction.
+
+				The fork is mounted such that a 64° head angle is achieved.
+			-->
+			<frame pos="0.506 0 0.531" euler="0 -26 0">
+				<include file="components/front_fork_160.xml"/>
+			</frame>
+		</body>
+		<frame pos="-0.25 0 1.110">
+			<include file="components/rider_passive.xml"/>
+		</frame>
+	</worldbody>
+	<!-- Four-bar loop closure: the upper end of the seatstay and rocker are one revolute joint. -->
+	<equality>
+		<connect name="rear_four_link_closure" site1="rear_upper_link_on_upright" site2="rear_upper_link_on_rocker" solref="0.001 1" solimp="0.995 0.995 0.001 0.5 2"/>
+	</equality>
+	<include file="systems/drivetrain.xml"/>
+	<include file="systems/actuators.xml"/>
+	<include file="systems/sensors.xml"/>
+	<include file="systems/rider_connections.xml"/>
+	<include file="systems/rider_actuation.xml"/>
+	<include file="systems/suspension_constraints.xml"/>
+	<include file="analysis/kickback_constraints.xml"/> 
+</mujoco>
